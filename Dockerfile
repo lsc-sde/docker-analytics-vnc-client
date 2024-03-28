@@ -24,7 +24,7 @@ RUN mkdir ~/.vnc
 # Setup a password
 RUN x11vnc -storepasswd 1234 ~/.vnc/passwd
 # Autostart firefox (might not be the best way, but it does the trick)
-RUN bash -c 'echo "firefox" >> /.bashrc'
+RUN echo "exec firefox" > ~/.xinitrc && chmod +x ~/.xinitrc
 
 EXPOSE 5900
 CMD    ["x11vnc", "-forever", "-usepw", "-create"]
