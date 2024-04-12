@@ -1,2 +1,2 @@
 # docker-analytics-vnc-client
-Docker Image for Analytics Machine with VNC and a browser installed
+Docker Image for Analytics Machine with VNC and a browser installed, at present this is just a POC but the idea is that we create a locked down container just running a browser with access only to the sites and workspaces that we want it to have.
