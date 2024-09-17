@@ -8,6 +8,9 @@
 
 FROM ubuntu
 
+ENV BROWSER_URL="https://jupyter.xlscsde.local"
+ENV VNC_PASSWORD="1234"
+
 # Install vnc, xvfb in order to create a 'fake' display and firefox
 RUN apt-get update && apt-get install -y x11vnc xvfb wget
 RUN install -d -m 0755 /etc/apt/keyrings
@@ -23,8 +26,11 @@ RUN apt-get install -y firefox
 RUN mkdir ~/.vnc
 # Setup a password
 RUN x11vnc -storepasswd 1234 ~/.vnc/passwd
-# Autostart firefox (might not be the best way, but it does the trick)
-RUN echo "exec firefox" > ~/.xinitrc && chmod +x ~/.xinitrc
+
+COPY --chmod=0777 ./startup.sh /root/startup.sh
+COPY --chmod=0777 ./start-firefox.sh /usr/bin/start-firefox.sh
+COPY ./override.ini /root/override.ini
+
 
 EXPOSE 5900
-CMD    ["x11vnc", "-forever", "-usepw", "-create"]
+CMD    ["/root/startup.sh"]
